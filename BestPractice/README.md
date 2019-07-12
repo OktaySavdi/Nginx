@@ -1,9 +1,6 @@
 
-**
-
 ## Nginx Best Practice
 
-** 
 **1- Disable swap**
 
     vi /etc/fstab 
