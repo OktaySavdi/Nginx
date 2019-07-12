@@ -1,11 +1,12 @@
 
+
 ## Nginx Best Practice
 
 **1- Disable swap**
 
     vi /etc/fstab 
 
-"#" add comment the swap area
+    #/dev/mapper/rhel-swap   swap                    swap    defaults        0 0
 
 **2- After swap disable reboot machine**
 
