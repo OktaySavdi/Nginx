@@ -1,0 +1,49 @@
+https://www.nginx.com/blog/nginx-1-13-9-http2-server-push/
+https://nghttp2.org/
+
+worker_processes auto;
+
+events {
+  worker_connections 1024;
+}
+
+http {
+
+  include mime.types;
+
+  server {
+
+    listen 443 ssl http2;
+    server_name 167.99.93.26;
+
+    root /sites/demo;
+
+    index index.php index.html;
+
+    ssl_certificate /etc/nginx/ssl/self.crt;
+    ssl_certificate_key /etc/nginx/ssl/self.key;
+
+    location = /index.html {
+      http2_push /style.css;        #index.html isteği geldiğinde style.css sayfasınıda push ederek o sayfayıda clıent'a gonderır
+      http2_push /thumb.png;        #index.html isteği geldiğinde thumb.png  sayfasınıda push ederek o sayfayıda clien'a gonderır
+    }
+
+    location / {
+      try_files $uri $uri/ =404;
+    }
+
+    location ~\.php$ {
+      # Pass php requests to the php-fpm service (fastcgi)
+      include fastcgi.conf;
+      fastcgi_pass unix:/run/php/php7.1-fpm.sock;
+    }
+
+  }
+}
+
+Açıklama
+
+Server push konfigürasyonu herhangibir sayfa isteği geldiğinde o sayfanın ihtiyacı olabilecek sayfaları daha client istemeden tekrar request edilmemesi için o sayfanın ihtiyacı olabilecek sayfaların client'a gönderilmesi işlemidir. Örneğin /index.html isteği geldiğinde  /index.html sayfasının client tarafında render ederken gereken dosyalar /index.html isteğine response verirken gönderilir. Burda hangi dosyaların gönderilmesi gerektiğini  nginx'i konfigürasyon yapan kişinin bilmesi ve push edilecek dosyaların konfigürasyon dosyasına tanımlanması gereklidir.
+
+
+

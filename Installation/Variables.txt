@@ -1,0 +1,105 @@
+http://nginx.org/en/docs/varindex.html
+https://www.nginx.com/resources/wiki/start/topics/depth/ifisevil/
+
+events {}
+
+http {
+
+  include mime.types;
+
+  server {
+
+    listen 80;
+    server_name 167.99.93.26;
+    root /sites/demo;
+------------------------------------------------------
+    set $weekend 'No';
+
+    # Check if weekend
+    if ( $date_local ~ 'Sunday|Staurday' ) {
+      set $weekend 'Yes';
+    }
+	
+	location /is_weekend {
+
+      return 200 $weekend;
+    }
+------------------------------------------------------
+    if($arg_apikey != 1234){
+	 return 401 "Incorrect"
+	}
+
+------------------------------------------------------
+	location /inspect{
+	return 200 "$host\n$uri\n\$args";
+	return 200 "Name = $arg_name";                         ->http://192.168.56.101/inspect?name=oktay
+	}
+------------------------------------------------------		
+    if ($request_method = POST ) {
+       return 405;
+    }
+    if ($args ~ post=140){
+     rewrite ^ http://example.com/ permanent;
+    }
+------------------------------------------------------	
+	location /only-one-if {
+    set $true 1;
+
+    if ($true) {
+        add_header X-First 1;
+    }
+
+    if ($true) {
+        add_header X-Second 2;
+    }
+
+    return 204;
+   }
+------------------------------------------------------
+   location /proxy-pass-uri {
+    proxy_pass http://127.0.0.1:8080/;
+
+    set $true 1;
+
+    if ($true) {
+        # nothing
+    }
+}
+ ------------------------------------------------------
+ location /if-try-files {
+     try_files  /file  @fallback;
+
+     set $true 1;
+
+     if ($true) {
+         # nothing
+     }
+}
+ ------------------------------------------------------
+ location /crash {
+
+    set $true 1;
+
+    if ($true) {
+        # fastcgi_pass here
+        fastcgi_pass  127.0.0.1:9000;
+    }
+
+    if ($true) {
+        # no handler here
+    }
+}
+ ------------------------------------------------------
+ location ~* ^/if-and-alias/(?<file>.*) {
+    alias /tmp/$file;
+
+    set $true 1;
+
+    if ($true) {
+        # nothing
+    }
+}
+ ------------------------------------------------------
+ 
+  }
+}

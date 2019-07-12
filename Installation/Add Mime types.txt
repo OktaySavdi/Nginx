@@ -1,0 +1,6 @@
+cd /etc/nginx
+
+cat mime.types
+
+
+https://github.com/nginx/nginx/blob/master/conf/mime.types

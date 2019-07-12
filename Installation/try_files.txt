@@ -1,0 +1,39 @@
+events {}
+
+http {
+
+  include mime.types;
+
+  server {
+
+    listen       80 default_server;
+        listen       [::]:80 default_server;
+        server_name  192.168.56.101;
+		root         /usr/share/nginx/html;
+		
+		try_files /test.png /thumbs.png /deneme;       ## trying to open the other if no staring in order
+		
+		location /deneme {
+		  return 200 "hello Oktay Bey";
+
+  }
+}
+---------------------------------------------------------------------
+  events {}
+
+  http {
+
+  include mime.types;
+  server {
+
+		try_files $URI /thumbs.png /kontrol_404;
+		
+		location /kontrol_404 {
+		  return 404 "Dosya Bulunamadi";
+		}
+		
+		location /deneme {
+		  return 200 "hello Oktay Bey";
+		}
+  }
+}

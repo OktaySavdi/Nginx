@@ -1,0 +1,38 @@
+user www-data;
+
+worker_processes auto;
+
+events {
+  worker_connections 1024;
+}
+
+http {
+
+  include mime.types;
+
+  server {
+
+    listen 80;
+    server_name 167.99.93.26;
+
+    root /sites/demo;
+
+     location ~* \.(css|js|jpg|png)$ {                           # css js jpg ve png uzantılar ıcın cacheleme mekanızmasının kullanılabileceğini konfigürasyonu 
+      access_log off;                                            # access logları kapatır
+      add_header Cache-Control public;                      	 # http 1.1 ve üzeri istekler için içeriğin cachelenebileceği bilgisini header olarak cliente iletir
+      add_header Pragma public;                                  # http 1.0 ve altı istekler için içeriğin cachelenebileceği bilgisini header olarak cliente iletir
+      add_header Vary Accept-Encoding;                      	 # daha sonraki konularda anlatılacak
+      expires 1M;                                                # cacheleme 1 aylık süre boyunca expire olmayacak
+    }
+
+  }
+}
+
+Açıklama
+
+curl -I http://192.168.56.101/thumb.png  
+
+Headers & Expires
+
+Headers  gönderilen içeriğin cachelenebileceğini veya cachelenemeyeceği bilgisini client browsera gönderen yapıdır
+Expires headers ın anlamı ve işlevi, serverdan browsera içeriğin ne kadar süre cachelenebileceği ve ne  kadar sürede expire olabileceği bilgisi dir

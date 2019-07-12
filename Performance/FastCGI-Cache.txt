@@ -1,0 +1,79 @@
+http://nginx.org/en/docs/http/ngx_http_fastcgi_module.html
+https://httpd.apache.org/docs/2.4/programs/ab.html
+
+worker_processes auto;
+
+events {
+  worker_connections 1024;
+}
+
+http {
+
+  include mime.types;
+
+  # Configure microcache (fastcgi)
+  fastcgi_cache_path /tmp/nginx_cache levels=1:2 keys_zone=ZONE_1:100m inactive=60m;      ###
+  fastcgi_cache_key "$scheme$request_method$host$request_uri";                            ###
+  add_header X-Cache $upstream_cache_status;                                              ###
+
+  server {
+
+    listen 80;
+    server_name 167.99.93.26;
+
+    root /sites/demo;
+
+    index index.php index.html;
+
+    # Cache by default
+    set $no_cache 0;						### if kontrolü için no cache değişkeni öncelikle 0 a set edilir
+
+    # Check for cache bypass
+    if ($arg_skipcache = 1) {               ###Clientdan gelen skipcache argumenti eğer 1 ise no cache değişkenini 1 e set et 
+      set $no_cache 1;                      ##
+    }                                       ##
+
+    location / {
+      try_files $uri $uri/ =404;
+    }
+
+    location ~\.php$ {
+      # Pass php requests to the php-fpm service (fastcgi)
+      include fastcgi.conf;                                   
+      fastcgi_pass unix:/run/php/php7.1-fpm.sock;
+
+      # Enable cache
+      fastcgi_cache ZONE_1;                   # php istekleri için ZONE_1 cache i enable hale getirir
+      fastcgi_cache_valid 200 60m;            # 200 olan başarılı istekleri 60 dk boyunca hiçbir istek gelmese bile tutar
+      fastcgi_cache_bypass $no_cache;         # eğer no cache değişkeni 1 ise cache mekanizmasını by pass ederek cevap ver
+      fastcgi_no_cache $no_cache;             # eğer no cache 1 ise gönderilen response u gelecekteki responselarda kullanılmak üzere cache leme 
+    }
+
+  }
+}
+Açıklama
+
+Nginx     fastCGI caching application serverdan dönen dynamic requestlerin responselarını cacheleyen mekanizmadır
+
+Bütün aktif cache keyler paylaşılan memory bölgesinde tutulur  ve bu bölge isimlendirilir ve size ı belirlenir;  
+
+keys_zone=ZONE_1:100m
+
+cachelere ne kadar süre içinde kullanılmadığı zaman silineceği konfigürasyonu ;
+
+inactive=60m
+
+
+cacheler key halinde depolanır ve bu keylerin nasıl oluşturulacağını biz konfigüre edebiliriz;
+
+fastcgi_cache_key "$scheme$request_method$host$request_uri";
+
+
+$scheme  = http yada https 
+
+$request_method  = get mi post mu  hangi request geldi
+
+$host = hangi domain ile istek geldi
+
+$requested_uri hangi url ile istek geldi
+

@@ -1,0 +1,3 @@
+#SELinux açık olduğundan dolayı bu hata alınır
+
+setsebool -P httpd_can_network_connect 1

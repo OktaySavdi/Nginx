@@ -1,0 +1,44 @@
+http {
+	
+    server {
+        listen       80 default_server;
+        listen       [::]:80 default_server;
+        server_name  192.168.56.101;
+        root         /usr/share/nginx/html;
+		
+		#benzeyenleri de alır or /deneme2 veya /deneme2/oyeah
+		location /deneme {                                   
+		  return 200 'Hello from NGINX "/deneme" location';
+        }													 
+		
+		#aynısını alır
+		location = /deneme {                                   
+		  return 200 'Hello from NGINX "/deneme" - EXACT MATCH.';
+        }
+		
+		#regex and case sensetive
+		location ~ /deneme[0-9] {                                   
+		  return 200 'Hello from NGINX "/deneme"- EXACT Sentetive';
+        }
+		
+		#regex and case insensetive
+		location ~* /deneme[0-9] {                                   
+		  return 200 'Hello from NGINX "/deneme"- EXACT insensetive';
+        }
+		
+		#preferentian prefix
+		location ^~ /deneme[0-9] {                                   
+		  return 200 'Hello from NGINX "/deneme"- EXACT preferentian';
+        }
+    }
+}
+
+
+
+1- Exact match  = uri
+
+2- Prefential prefix Match  ^~ uri
+
+3- REGEX Match ~* uri     
+
+4- Prefix match	uri

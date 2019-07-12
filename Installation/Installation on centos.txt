@@ -1,0 +1,46 @@
+#install required packages
+yum install gc gcc gcc-c++ pcre-devel zlib-devel make wget openssl-devel libxml2-devel libxslt-devel gd-devel perl-ExtUtils-Embed GeoIP-devel gperftools gperftools-devel libatomic_ops-devel perl-ExtUtils-Embed -y
+
+#install packages
+wget https://nginx.org/download/nginx-1.15.11.tar.gz
+tar zxf nginx-1.15.11.tar.gz
+cd nginx-1.15.11
+
+./configure
+--sbin-path=/usr/bin/nginx
+--conf-path=/etc/nginx/nginx.conf
+--pid-path=/var/run/nginx.pid 
+--error-log-path=/var/log/nginx/error.log
+--http-log-path=/var/log/nginx/access.log
+--with-pcre=../pcre-8.42
+--with-zlib=../zlib-1.2.11
+--with-http_ssl_module
+--with-stream
+--with-mail=dynamic
+--add-module=/usr/build/nginx-rtmp-module
+--add-dynamic-module=/usr/build/3party_module
+
+#install
+make
+make install
+
+#make sure created folders
+ls -l /etc/nginx/
+
+#Check nginx version
+nginx -V
+
+#Start Nginx
+sudo systemctl enable nginx
+sudo systemctl start nginx
+sudo systemctl status nginx
+
+#Check process
+ps aux | grep nginx
+
+#Firewall Setting
+sudo firewall-cmd --permanent --zone=public --add-service=http 
+sudo firewall-cmd --permanent --zone=public --add-service=https
+sudo firewall-cmd --reload
+
+http://server_domain_name_or_IP/

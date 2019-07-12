@@ -1,0 +1,41 @@
+user www-data;
+
+worker_processes auto;
+
+events {
+  worker_connections 1024;
+}
+
+http {
+
+  include mime.types;
+
+  gzip on;                     # any child context can overwrite this configuration
+  gzip_comp_level 3;           # gzip compression level
+
+  gzip_types text/css;         # specify which mime types can compress
+  gzip_types text/javascript;  # overwrite author so it can be written one by one
+
+
+  server {
+
+    listen 80;
+    server_name 167.99.93.26;
+
+    root /sites/demo;
+
+    location ~* \.(css|js|jpg|png)$ {
+      access_log off;
+      add_header Cache-Control public;
+      add_header Pragma public;
+      add_header Vary Accept-Encoding;
+      expires 1M;
+    }
+
+  }
+}
+
+Attention
+As gzip compression level increases, resource usage on the server increases. Level 3 or 4 is ideal
+
+curl -I -H "Accept-Encoding: gzip, deflate" http://192.168.56.101/index.html

@@ -1,0 +1,72 @@
+http://nginx.org/en/docs/syntax.html
+
+worker_processes auto;
+
+events {
+  worker_connections 1024;
+}
+
+http {
+
+  include mime.types;
+  
+    client_body_buffer_size 10K;      # bu direktif ne kadarlık bir alanın client'dan gelen post requestlerinin bufferlanabileceğini konfigure eder,eğer gereğinden fazla verilirse waste of memory olur gereğinden az verilmeside   Buffer overflow to HD olayı gerçekleşir, Uygulamamızın durumuna göre  burdaki size ayarlanmalıdır
+  client_max_body_size 8m;          #  Bunun anlamı 8 mgbytedan fazla post requestleri kabul etmemek. Eğer 8 mb dan buyuk post requst gelirse server 413 "Request Entity too large" dönülür
+
+  client_header_buffer_size 1k;    # request headerlerin memoryde ne kadar bufferlanabileceğini konfigure eder
+
+  client_body_timeout 12;         # clientdan gelen body lerin timeout değer 12 milisecond bunlar transmisyon zamanlaması deil bufferan okunma zamanlarıdır
+  client_header_timeout 12;    # clientdan gelen headerlerin timeout değer 12 milisecond bunlar transmisyon zamanlaması deil bufferan okunma zamanlarıdır
+
+  keepalive_timeout 15;   # clientlerdan gee connection ların ne kadar (15ms) açık tutulacagını konfigüre eder, eğer gereğinden fazla verilirse connection fazla tutular ve poolda yer kaplar eğer gereğinden az verilirse çoklu dosya açımı gerektiren tek request için 1 den fazla connection açılır ve sunucuya yuk bıner
+  send_timeout 10;  #  clienta verilecek responseun time out değeri. bu 2 başarılı write operasyonu ıcındır bütün response un transmisyonda kullanılan zamanı değildir.
+
+  sendfile on;    #static file ların memory ve buffer karıştırılmadan direkt HDD den clienta gonderılmesını sağlar 
+
+  tcp_nopush on;   #  responseların oluşturduğu data paketlerinin büyüklüğünü optimize eder, response header ve file ın baslangıcının tek bir pakette olmasını ve diğer tüm file ın full paket halende gönderilmesini sağlar sadece sendfile on açıkken enable olabilir
+    
+
+  # Buffer size for POST submissions
+  client_body_buffer_size 10K;
+  client_max_body_size 8m;
+
+  # Buffer size for Headers
+  client_header_buffer_size 1k;
+
+  # Max time to receive client headers/body
+  client_body_timeout 12;
+  client_header_timeout 12;
+
+  # Max time to keep a connection open for
+  keepalive_timeout 15;
+
+  # Max time for the client accept/receive a response
+  send_timeout 10;
+
+  # Skip buffering for static files
+  sendfile on;
+
+  # Optimise sendfile packets
+  tcp_nopush on;
+
+  server {
+
+    listen 80;
+    server_name 167.99.93.26;
+
+    root /sites/demo;
+
+    index index.php index.html;
+
+    location / {
+      try_files $uri $uri/ =404;
+    }
+
+    location ~\.php$ {
+      # Pass php requests to the php-fpm service (fastcgi)
+      include fastcgi.conf;
+      fastcgi_pass unix:/run/php/php7.1-fpm.sock;
+    }
+
+  }
+}

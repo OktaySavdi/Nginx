@@ -1,0 +1,13 @@
+http {
+    
+    types {	
+	     text/html html;
+		 text/css css;	
+	}
+
+    server {
+        listen       80 default_server;
+        listen       [::]:80 default_server;
+        server_name  192.168.56.101;
+        root         /usr/share/nginx/html;
+    }
