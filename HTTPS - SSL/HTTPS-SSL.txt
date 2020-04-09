@@ -1,81 +1,27 @@
 https://en.wikipedia.org/wiki/Diffie%E2%80%93Hellman_key_exchange
 https://hackernoon.com/algorithms-explained-diffie-hellman-1034210d5100
 
+```
+server {
+    listen      443;
+    ssl         on;
+    server_name  company.savdi.local;
+    ssl_certificate     /etc/nginx/company.com.crt;
+    ssl_certificate_key /etc/nginx/company.com.rsa;
 
-http {
-    # ...
-    upstream exchange {
-        zone exchange 64k;
-        ntlm;
-        server exchange1.example.com;
-        server exchange2.example.com;
-    }
-    
-    server {
-        listen              443 ssl;
-        ssl_certificate     /etc/nginx/ssl/company.com.crt;
-        ssl_certificate_key /etc/nginx/ssl/company.com.key;
-        ssl_protocols       TLSv1 TLSv1.1 TLSv1.2;
-       
-        location / {
-            proxy_pass         https://exchange;
-            proxy_http_version 1.1;
-            proxy_set_header   Connection "";
-        }
-    }
-}
 
--------------------------------------------------------------------------------------------
-worker_processes auto;
-
-events {
-  worker_connections 1024;
-}
-
-http {
-
-  include mime.types;
-
-  # Redirect all traffic to HTTPS
-  server {
-    listen 80;
-    server_name 167.99.93.26;
-    return 301 https://$host$request_uri;                                    #Redirect
-  }
-
-  server {
-
-    listen 443 ssl http2;
-    server_name 167.99.93.26;
-
-    root /sites/demo;
-
-    index index.html;
-
-    ssl_certificate /etc/nginx/ssl/self.crt;
-    ssl_certificate_key /etc/nginx/ssl/self.key;
-
-    # Disable SSL
-    ssl_protocols TLSv1 TLSv1.1 TLSv1.2;                                       #ssl protocol command to use only TLSv1 TLSv1.1 TLSv1.2
-
-    # Optimise cipher suits
-    ssl_prefer_server_ciphers on;                                              #Enables algorithm telegram to be used to make network connection more secure when using TLS teleology
-    ssl_ciphers ECDH+AESGCM:ECDH+AES256:ECDH+AES128:DH+3DES:!ADH:!AECDH:!MD5;  #The algorithm used by cipher suite technology is set
-
-    # Enable DH Params
-    ssl_dhparam /etc/nginx/ssl/dhparam.pem;                                    
-
-    # Enable HSTS
-    add_header Strict-Transport-Security "max-age=31536000" always;            #the header is sent to the client, where the site accepts only https connections and this cache is always kept in the client cache for max-age
-
-    # SSL sessions
-    ssl_session_cache shared:SSL:40m;                                          #ssl sessions caches memory in an area of 40m so that any worker_processes can access the ssl session
-    ssl_session_timeout 4h;                                                    #ssl session sets the memory cache time out value to 4 hours.
-    ssl_session_tickets on;                                                    #allows handshake mechanism to be used again in old sessions
+    #charset koi8-r;
+    #access_log  /var/log/nginx/host.access.log  main;
 
     location / {
-      try_files $uri $uri/ =404;
+       proxy_pass http://127.0.0.1:8080;
     }
-  }
-}
 
+
+    error_page   500 502 503 504  /50x.html;
+    location = /50x.html {
+        root   /usr/share/nginx/html;
+    }
+
+}
+```
