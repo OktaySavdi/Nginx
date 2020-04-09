@@ -1,5 +1,5 @@
 ## Nginx Example
-```yaml
+```json
   upstream maps {
     server 10.98.15.30:9081;
     server 10.98.15.31:9081;
