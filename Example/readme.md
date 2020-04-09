@@ -1,5 +1,5 @@
 ## Nginx Example
-
+```yaml
   upstream maps {
     server 10.98.15.30:9081;
     server 10.98.15.31:9081;
@@ -22,7 +22,7 @@ ssl_certificate_key    /opt/cert/nginx-selfsigned.key;
   
   location /Sample1/SimpleServlet {
         proxy_pass      http://maps;
-  	    proxy_set_header Host $http_host;
+  	proxy_set_header Host $http_host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto $scheme;
@@ -34,3 +34,4 @@ ssl_certificate_key    /opt/cert/nginx-selfsigned.key;
           root   /usr/share/nginx/html;
     }
 }
+```
