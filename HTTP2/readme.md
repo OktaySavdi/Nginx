@@ -14,8 +14,8 @@ http {
 
   server {
 
-    listen 443 ssl http2;   
-    server_name company.savdi.local;   #  In addition to the ssl connection configuration you can use http2 command with nginx as http2    
+    listen 443 ssl http2;    #  In addition to the ssl connection configuration you can use http2 command with nginx as http2 
+    server_name company.savdi.local;     
 
     root /sites/demo;
     index index.php index.html;
