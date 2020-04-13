@@ -1,3 +1,5 @@
+## Nginx Load Balancing
+
 ```yaml
 http {
     upstream myapp1 {                               # list of servers to load balancing
