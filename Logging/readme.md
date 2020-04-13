@@ -1,3 +1,5 @@
+# Nginx Logging
+
 ```yaml
 events {}
 
