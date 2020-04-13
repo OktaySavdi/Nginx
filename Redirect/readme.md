@@ -9,7 +9,7 @@ http {
         root         /usr/share/nginx/html;
 
         location /logo {
-	return 307 /thumb.png      ### Redirect
+        return 307 /thumb.png      ### Redirect
         }
     }
     
