@@ -1,3 +1,5 @@
+# Nginx Rewrite
+
 ```yaml
 events {}
 
