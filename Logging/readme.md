@@ -1,3 +1,4 @@
+```yaml
 events {}
 
 http {
@@ -25,6 +26,7 @@ http {
 
   }
 }
+```
 ------------------------------Logging to Syslog----------------------------------------------
 
 error_log server=unix:/var/log/nginx.sock debug;
@@ -71,6 +73,6 @@ map $status $loggable {
     ~^[23]  0;
     default 1;
 }
-
+```
 access_log /path/to/access.log combined if=$loggable;
-
+```
