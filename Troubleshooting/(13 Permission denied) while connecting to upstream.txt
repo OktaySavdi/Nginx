@@ -1,3 +1,5 @@
-#SELinux açık olduğundan dolayı bu hata alınır
+#This error is received because SELinux is open
 
+```
 setsebool -P httpd_can_network_connect 1
+```
