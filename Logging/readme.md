@@ -27,7 +27,7 @@ http {
   }
 }
 ```
-------------------------------Logging to Syslog----------------------------------------------
+**------------------------------ Logging to Syslog ----------------------------------------------**
 
 error_log server=unix:/var/log/nginx.sock debug;
 
@@ -41,7 +41,7 @@ The severity= Possible values in order of increasing severity are: debug, info, 
 Messages are logged at the specified level and all more severe levels. In our example, the severity level error also enables crit, alert, and emerg levels to be logged.
 
 
-------------------------------Gzip----------------------------------------------
+**------------------------------ Gzip ----------------------------------------------**
 
 http {
     log_format compression '$remote_addr - $remote_user [$time_local] '
@@ -55,7 +55,7 @@ http {
     }
 }
 
-------------------------------Stream----------------------------------------------
+**------------------------------ Stream ----------------------------------------------**
 
 $upstream_connect_time – The time spent on establishing a connection with an upstream server
 
@@ -77,7 +77,7 @@ http {
     }
 }
 
-------------------------------Conditional----------------------------------------------
+**------------------------------ Conditional ----------------------------------------------**
 
 map $status $loggable {
     ~^[23]  0;
