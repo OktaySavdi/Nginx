@@ -44,7 +44,7 @@ Messages are logged at the specified level and all more severe levels. In our ex
 
 
 **------------------------------ Gzip ----------------------------------------------**
-
+```yaml
 http {
     log_format compression '$remote_addr - $remote_user [$time_local] '
                            '"$request" $status $body_bytes_sent '
@@ -53,10 +53,9 @@ http {
     server {
         gzip on;
         access_log /spool/logs/nginx-access.log compression;
-        ...
     }
 }
-
+```
 **------------------------------ Stream ----------------------------------------------**
 
 $upstream_connect_time – The time spent on establishing a connection with an upstream server
@@ -66,7 +65,7 @@ $upstream_header_time – The time between establishing a connection and receivi
 $upstream_response_time – The time between establishing a connection and receiving the last byte of the response body from the upstream server
 
 $request_time – The total time spent processing a request
-
+```yaml
 http {
     log_format upstream_time '$remote_addr - $remote_user [$time_local] '
                              '"$request" $status $body_bytes_sent '
@@ -75,10 +74,9 @@ http {
 
     server {
         access_log /spool/logs/nginx-access.log upstream_time;
-        ...
     }
 }
-
+````
 **------------------------------ Conditional ----------------------------------------------**
 
 map $status $loggable {
