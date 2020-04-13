@@ -1,6 +1,6 @@
-https://en.wikipedia.org/wiki/Diffie%E2%80%93Hellman_key_exchange
+[Example-1](https://en.wikipedia.org/wiki/Diffie%E2%80%93Hellman_key_exchange)
 
-https://hackernoon.com/algorithms-explained-diffie-hellman-1034210d5100
+[Example-2](https://hackernoon.com/algorithms-explained-diffie-hellman-1034210d5100)
 
 ```
 server {
