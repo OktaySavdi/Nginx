@@ -1,3 +1,4 @@
+```bash
 cat > /etc/systemd/system/nginx.service << EOF
 
 [Unit]
@@ -16,9 +17,11 @@ PrivateTmp=true
 [Install]
 WantedBy=multi-user.target
 EOF
-
+```
 
 #start Service
+```
 systemctl enable nginx
 systemctl star nginx
 systemctl status nginx
+```
