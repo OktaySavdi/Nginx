@@ -1,3 +1,5 @@
+```yaml
+
 http {
     
     server {
@@ -7,7 +9,7 @@ http {
         root         /usr/share/nginx/html;
 
         location /logo {
-		  return 307 /thumb.png                              ################## redirect
+		  return 307 /thumb.png      ### Redirect
         }
     }
 	
@@ -16,5 +18,6 @@ http {
   server {
     listen 80;
     server_name 167.99.93.26;
-    return 301 https://$host$request_uri;                                    #Redirect
+    return 301 https://$host$request_uri;   ### Redirect
   }
+  ```
