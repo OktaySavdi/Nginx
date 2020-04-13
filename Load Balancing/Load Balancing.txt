@@ -1,3 +1,4 @@
+```yaml
 http {
     upstream myapp1 {                               # list of servers to load balancing
         server srv1.example.com;
@@ -81,4 +82,4 @@ upstream backend {
     server backend3.example.com;
     server backend4.example.com;
 }
------------------------------------------------
+```
