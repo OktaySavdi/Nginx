@@ -1,3 +1,4 @@
+```yaml
 events {}
 
 http {
@@ -24,10 +25,11 @@ http {
     }
   }
 }
-		
-		
+```		
+
+```
 http://IP/user/john
-		
+```		
 		
 		
 		
