@@ -1,0 +1,33 @@
+upstream uniclient {
+    server 10.10.10.10:8080;
+    server 10.10.10.11:8080;
+    server 10.10.10.12:8080;
+  }
+
+  upstream urltester {
+    server 10.10.10.10:8230;
+    server 10.10.10.11:8230;
+    server 10.10.10.12:8230;
+  }
+
+server {
+    listen       80;
+    server_name  10.10.10.13;
+  
+  location /UNIClient {
+        proxy_pass      http://uniclient;
+        proxy_set_header Host $http_host;
+        proxy_set_header X-Real-IP $remote_addr;
+      }
+
+  location /URLTester {
+        proxy_pass      http://urltester;
+        proxy_set_header Host $http_host;
+        proxy_set_header X-Real-IP $remote_addr;
+      }
+
+      error_page   500 502 503 504  /50x.html;
+      location = /50x.html {
+          root   /usr/share/nginx/html;
+    }
+}
