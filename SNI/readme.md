@@ -9,8 +9,8 @@ server_name  MySitename.savdi.local;
 ssl_certificate      /opt/cert/MyCert.crt;
 ssl_certificate_key  /opt/cert/MyCert.rsa;
 
-access_log    /var/log/nginx/branch-v2-service-apps-test.apps-t.access.log;
-error_log     /var/log/nginx/branch-v2-service-apps-test-444.error.log;
+access_log    /var/log/nginx/MySitename.access.log;
+error_log     /var/log/nginx/MySitename.error.log;
 
 if ($scheme = http) { return 301 https://$host:443$request_uri; }
   
