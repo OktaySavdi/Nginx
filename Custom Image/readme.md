@@ -32,8 +32,8 @@ sudo yum install -y gd gd-devel GeoIP GeoIP-devel libxslt libxslt-devel libxml2 
             --error-log-path=/log/error.log \
             --pid-path=/opt/nginx/run/nginx.pid \
             --lock-path=/opt/nginx/run/nginx.lock \
-            --user=www \
-            --group=www \
+            --user=myuser \
+            --group=myuser \
             --with-select_module \
             --with-poll_module \
             --with-threads \
