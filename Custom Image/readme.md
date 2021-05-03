@@ -102,26 +102,26 @@ sudo make install
 ```
 • With the following command, the **/usr/lib64/nginx/** modules folder is connected to the **/etc/nginx/** modules folder with **symlink**.  The reason we do this is to add dynamic modules **load_module modules/ngx_foo_module.so** to the nginx configuration; form, to be able to add without entering the full path.
 ```bash
-sudo ln -s /usr/nginx/lib64/nginx/modules /usr/nginx/modules
+sudo ln -s /opt/nginx/lib64/nginx/modules /opt/nginx/modules
 ```
 • When Nginx is running, user and group information is created.
 ```bash
-sudo useradd --system --home /usr/nginx/cache/nginx --shell /sbin/nologin --comment "nginx user" --user-group nginx
+sudo useradd --system --home /opt/nginx/cache/nginx --shell /sbin/nologin --comment "nginx user" --user-group nginx
 ```
 • With the following command, it is checked whether nginx is running or not and the file paths with errors are created.
 ```bash
 sudo /usr/nginx/sbin/nginx -t
 ```
 ```
-nginx: the configuration file /usr/nginx/nginx.conf syntax is ok nginx: 
-[emerg] mkdir() "/usr/nginx/cache/nginx/client_temp" failed 
-(2: No such file or directory) nginx: configuration file /usr/nginx/nginx.conf test failed
+nginx: the configuration file /opt/nginx/nginx.conf syntax is ok nginx: 
+[emerg] mkdir() "/opt/nginx/cache/nginx/client_temp" failed 
+(2: No such file or directory) nginx: configuration file /opt/nginx/nginx.conf test failed
 ```
 · Folders with errors are created and tested until the errors are fixed and a positive result is obtained.
 
 · The folder that caused the error is created
 ```bash
-sudo mkdir -p /usr/nginx/cache/nginx/client_temp && sudo nginx -t
+sudo mkdir -p /opt/nginx/cache/nginx/client_temp && sudo nginx -t
 ```
 
 · The service file is created.
@@ -195,13 +195,13 @@ http {
     #gzip  on;
     charset         UTF-8;
 
-    include /usr/nginx/conf.d/*.conf;
+    include /opt/nginx/conf.d/*.conf;
 }
 ```
 
 · The Nginx service is opened and activated.
 ```bash
-nohup /usr/nginx/sbin/nginx > /dev/null 2>&1 &
+nohup /opt/nginx/sbin/nginx > /dev/null 2>&1 &
 ```
 or 
 ```bash
