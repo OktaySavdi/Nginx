@@ -110,7 +110,7 @@ sudo useradd --system --home /opt/nginx/cache/nginx --shell /sbin/nologin --comm
 ```
 • With the following command, it is checked whether nginx is running or not and the file paths with errors are created.
 ```bash
-sudo /usr/nginx/sbin/nginx -t
+sudo /opt/nginx/sbin/nginx -t
 ```
 ```
 nginx: the configuration file /opt/nginx/nginx.conf syntax is ok nginx: 
