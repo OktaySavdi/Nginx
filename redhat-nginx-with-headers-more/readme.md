@@ -1,4 +1,5 @@
-Dockerfile for nginx headers more in Red Hat image
+# Dockerfile for nginx headers more in Red Hat image
+
 Red Hat Nginx Image with Headers More Module
 ```
 docker login registry.redhat.io
