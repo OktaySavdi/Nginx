@@ -1,4 +1,4 @@
-```sh
+```ruby
 server {
 	listen  10.10.10.10:443 ssl;
 	server_name  myapp.mydomain.com.tr;
