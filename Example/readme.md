@@ -1,5 +1,5 @@
 ## Nginx Example
-```
+```ruby
   upstream maps {
     server 10.10.10.10:9081;
     server 10.10.10.11:9081;
