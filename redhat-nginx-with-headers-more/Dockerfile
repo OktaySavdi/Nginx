@@ -9,11 +9,11 @@ USER 0
 
 RUN source /tmp/variables && \
 	INSTALL_PKGS="pcre pcre-devel perl-ExtUtils-Embed" && \
-    yum install -y --setopt=tsflags=nodocs $INSTALL_PKGS && \
-    rpm -V $INSTALL_PKGS && \
-    yum -y clean all --enablerepo='*' && \
-	curl -O http://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz && \
-	curl -O https://codeload.github.com/openresty/headers-more-nginx-module/tar.gz/refs/tags/v0.33 && \
+	yum install -y --nobest --setopt=tsflags=nodocs $INSTALL_PKGS && \
+	rpm -V $INSTALL_PKGS && \
+	yum -y clean all --enablerepo='*' && \
+	curl -O http://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz $(([[ -n $HTTP_PROXY ]] && echo "--proxy $HTTP_PROXY") || ([[ -n $HTTPS_PROXY ]] && echo "--proxy $HTTPS_PROXY")) && \
+	curl -O https://codeload.github.com/openresty/headers-more-nginx-module/tar.gz/refs/tags/v0.33 $(([[ -n $HTTP_PROXY ]] && echo "--proxy $HTTP_PROXY") || ([[ -n $HTTPS_PROXY ]] && echo "--proxy $HTTPS_PROXY")) && \
 	tar -xf nginx-${NGINX_VERSION}.tar.gz && \
 	tar -xf v0.33 && \
 	rm -f *.tar.gz v0.33 && \
@@ -29,5 +29,3 @@ RUN echo "load_module \"/usr/lib64/nginx/modules/ngx_http_headers_more_filter_mo
 	sed -i "/.*http {.*/a \ \ \ \ more_clear_headers 'Server';" /etc/nginx/nginx.conf
 
 USER 1001
-
-CMD $STI_SCRIPTS_PATH/usage
